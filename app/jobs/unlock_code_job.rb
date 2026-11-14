@@ -25,7 +25,8 @@ class UnlockCodeJob < ApplicationJob
       email: purchase.email,
       data: {
         code: code,
-        product_name: product.name
+        product_name: product.name,
+        sender_email: product.sender_email
       }
     )
     record

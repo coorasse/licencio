@@ -1,6 +1,8 @@
 require "test_helper"
 
 class LoopsTest < ActiveSupport::TestCase
+  include ActionMailer::TestHelper
+
   # Records requests and returns queued responses in order, standing in for Net::HTTP.
   class FakeHTTP
     attr_reader :requests
@@ -73,5 +75,13 @@ class LoopsTest < ActiveSupport::TestCase
         end
       end
     end
+  end
+
+  test "send_transactional mails the template over SMTP when there is no API key" do
+    assert_emails 1 do
+      Loops.send_transactional(api_key: nil, transactional_id: "unlock", email: "a@example.com",
+        data: { code: "123456", product_name: "gitto", sender_email: "licences@example.com" })
+    end
+    assert_includes ActionMailer::Base.deliveries.last.body.to_s, "123456"
   end
 end

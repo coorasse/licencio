@@ -1,0 +1,6 @@
+Your <%= @data[:product_name] %> gift<%= " for #{@data[:to_name]}" if @data[:to_name].present? %> is ready.
+
+Gift code: <%= @data[:gift_code] %>
+
+Print or forward the card:
+<%= @data[:card_url] %>

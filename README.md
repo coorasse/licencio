@@ -231,6 +231,8 @@ See [`env.example`](env.example) for the full, commented list. The essentials:
 | `ADMIN_API_KEY` | for imports | Bearer token for `/api/admin/*` |
 | `SUPPORT_ADMIN_TOKEN` | for unlock support | `X-Admin-Token` for `POST /v1/support/lookup` |
 | `LOOPS_API_KEY_DEFAULT` | for email | fallback Loops key (per-Product key overrides it) |
+| `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD` | for email without Loops | used when a product has no Loops key; its transactional IDs then name templates in `app/views/transactional_mailer` |
+| `MAILER_FROM` | for email without Loops | sender when a product has no sender email |
 
 Everything Stripe — including the checkout success/cancel redirect URLs — lives
 **per-Product** in `/admin`, not in the environment.

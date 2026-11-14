@@ -1,0 +1,13 @@
+en:
+  transactional_mailer:
+    subjects:
+      portal_access: "Your %{product_name} licence"
+      purchase: "Your %{product_name} licence key"
+      redemption: "Your %{product_name} licence key"
+      seats_added: "Your %{product_name} licence was updated"
+      refund: "Your %{product_name} refund"
+      expiry_reminder: "Your %{product_name} updates end soon"
+      checkout_recovery: "Finish buying %{product_name}"
+      gift: "Your %{product_name} gift card"
+      student_discount: "Your %{product_name} student discount"
+      unlock: "Your %{product_name} unlock code"
