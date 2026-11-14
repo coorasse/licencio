@@ -1,0 +1,14 @@
+{
+  "healthchecks": {
+    "web": [
+      {
+        "type": "startup",
+        "name": "rails health",
+        "path": "/up",
+        "attempts": 5,
+        "wait": 3,
+        "timeout": 5
+      }
+    ]
+  }
+}
