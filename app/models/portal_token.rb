@@ -9,8 +9,11 @@ class PortalToken < ApplicationRecord
   # before the human clicks, so a one-shot token would be consumed by the prefetch and the real
   # click would fail. The 30-minute expiry bounds a leaked link instead.
   def self.issue!(customer:, product:)
-    record = where(customer:, product:).first_or_initialize
-    record.update!(token: SecureRandom.urlsafe_base64(32), expires_at: 30.minutes.from_now)
+    attributes = { token: SecureRandom.urlsafe_base64(32), expires_at: 30.minutes.from_now }
+    # create_or_find_by!, not first_or_initialize: two concurrent redemptions for one new
+    # customer would both try to insert the row and one would hit the unique index.
+    record = create_or_find_by!(customer:, product:) { it.assign_attributes(attributes) }
+    record.update!(attributes) unless record.previously_new_record?
     record
   end
 
