@@ -1,0 +1,19 @@
+version: v1.0
+name: deploy
+agent:
+  machine:
+    type: f1-standard-2
+    os_image: ubuntu2404
+blocks:
+  - name: deploy
+    task:
+      secrets:
+        - name: dokku-personal-hetzner
+      jobs:
+        - name: deploy
+          commands:
+            - checkout
+            - git fetch --unshallow || true
+            - git remote add dokku ssh://dokku@$DOKKU_SERVER_IP:22/licencio
+            - chmod 600 /home/semaphore/.ssh/hetzner-github.key
+            - GIT_SSH_COMMAND="ssh -i /home/semaphore/.ssh/hetzner-github.key -o IdentitiesOnly=yes -o StrictHostKeyChecking=no" git push dokku -f $SEMAPHORE_GIT_SHA:refs/heads/main

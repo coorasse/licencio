@@ -1,0 +1,45 @@
+version: "v1.0"
+name: licencio
+agent:
+  machine:
+    type: f1-standard-2
+    os_image: ubuntu2404
+auto_cancel:
+  running:
+    when: "true"
+
+blocks:
+  - name: checks
+    execution_time_limit:
+      minutes: 15
+    task:
+      env_vars:
+        - name: RAILS_ENV
+          value: test
+        - name: DATABASE_URL
+          value: "postgres://postgres@localhost:5432/licencio_test"
+      prologue:
+        commands:
+          - sem-service start postgres 17
+          - checkout --use-cache
+          - sem-version ruby $(cat .ruby-version | sed 's/ruby-//') -f
+          - cache restore
+          - bundle config set --local deployment true
+          - bundle config set --local path vendor/bundle
+          - bundle install -j 4
+          - cache store
+          - bin/rails db:prepare
+      jobs:
+        - name: tests
+          commands:
+            - bin/rails test
+        - name: lint
+          commands:
+            - bin/rubocop
+            - bin/brakeman --no-pager
+
+promotions:
+  - name: deploy
+    pipeline_file: deploy.yml
+    auto_promote:
+      when: "result = 'passed' and branch = 'deploy'"
