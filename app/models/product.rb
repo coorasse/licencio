@@ -384,7 +384,7 @@ class Product < ApplicationRecord
     promotion_code = active_promotion_code(promo) if takes_codes
     params = {
       mode: "payment", customer_creation: "always",
-      managed_payments: { enabled: true }, # Stripe as merchant of record: calculates, collects &
+      managed_payments: ({ enabled: true } if managed_payments?), # Stripe as merchant of record: calculates, collects &
       # remits global VAT/sales tax (no registrations on our end).
       # MoR owns tax config, so do NOT set automatic_tax here.
       # A code from the buy link arrives already applied. Stripe takes `discounts` or the
@@ -393,7 +393,7 @@ class Product < ApplicationRecord
       # Only first-time buyers get asked. A renewal or a seat upgrade is an existing owner
       # who answered this once already, and asking again would double-count the channel
       # that actually brought them.
-      custom_fields: (GIFT_FIELDS if gift) || (owner_only_price ? [] : [ SOURCE_FIELD ]),
+      custom_fields: (GIFT_FIELDS if gift) || (owner_only_price || !ask_checkout_source? ? [] : [ SOURCE_FIELD ]),
       line_items: [ { price: price.id, quantity: 1 } ],
       customer_email: email.presence,
       client_reference_id: client_reference_id.presence, # optional caller-supplied analytics id, passed through to Stripe

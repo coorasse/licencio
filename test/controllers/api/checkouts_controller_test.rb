@@ -25,6 +25,21 @@ class Api::CheckoutsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @product.id, captured[:metadata][:licencio_product_id]
     assert_equal({ enabled: true }, captured[:managed_payments])
     assert_equal true, captured[:allow_promotion_codes]
+    assert_equal [ Product::SOURCE_FIELD ], captured[:custom_fields]
+  end
+
+  test "a product can sell without Managed Payments and without asking how the buyer found it" do
+    @product.update!(managed_payments: false, ask_checkout_source: false)
+    captured = nil
+    Stripe::Price.stub(:retrieve, fake_price("price_3", @product.stripe_product_id, { "seats" => "3" })) do
+      Stripe::Checkout::Session.stub(:create, ->(params, _opts = {}) { captured = params; fake_session }) do
+        post "/api/checkout", params: { product_slug: @product.slug, price_id: "price_3" }
+      end
+    end
+
+    assert_response :ok
+    assert_not captured.key?(:managed_payments)
+    assert_empty captured[:custom_fields]
   end
 
   test "the site's signed country picks the band price" do

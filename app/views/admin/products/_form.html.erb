@@ -162,6 +162,20 @@
         <%= form.url_field :checkout_cancel_url, class: "field-input" %>
       </div>
       <div>
+        <label class="flex items-center gap-2 text-body">
+          <%= form.check_box :managed_payments %>
+          Sell through Stripe Managed Payments
+        </label>
+        <p class="field-hint">Stripe is the merchant of record and handles sales tax. The Stripe account must have Managed Payments enabled and a tax code on the product.</p>
+      </div>
+      <div>
+        <label class="flex items-center gap-2 text-body">
+          <%= form.check_box :ask_checkout_source %>
+          Ask buyers how they found the app
+        </label>
+        <p class="field-hint">A required dropdown on the checkout of a first purchase.</p>
+      </div>
+      <div>
         <%= form.label :gift_card_url, "Gift card URL", class: "field-label" %>
         <%= form.url_field :gift_card_url, class: "field-input" %>
         <p class="field-hint">The storefront page that shows a gift card and redeems it. Leave blank to sell no gifts.</p>
