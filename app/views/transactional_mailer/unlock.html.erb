@@ -1,0 +1,3 @@
+<%= email_paragraph "Your #{@data[:product_name]} unlock code:" %>
+<%= email_code "Unlock code", @data[:code] %>
+<%= email_paragraph "Enter it in #{@data[:product_name]} to activate your licence. If you didn't ask for it, ignore this email." %>

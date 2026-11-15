@@ -6,10 +6,10 @@ module Loops
   CONTACTS_UPDATE = URI("https://app.loops.so/api/v1/contacts/update")
 
   # Without a Loops API key the email goes out over SMTP, and transactional_id names a
-  # TransactionalMailer template.
-  def self.send_transactional(api_key:, transactional_id:, email:, data:)
+  # TransactionalMailer template, styled with the product's logo and colors.
+  def self.send_transactional(api_key:, transactional_id:, email:, data:, product: nil)
     if api_key.blank?
-      return TransactionalMailer.notification(template: transactional_id, email:, data:).deliver_now
+      return TransactionalMailer.notification(template: transactional_id, email:, data:, product:).deliver_now
     end
 
     request(Net::HTTP::Post, TRANSACTIONAL, api_key:,

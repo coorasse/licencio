@@ -82,6 +82,6 @@ class LoopsTest < ActiveSupport::TestCase
       Loops.send_transactional(api_key: nil, transactional_id: "unlock", email: "a@example.com",
         data: { code: "123456", product_name: "gitto", sender_email: "licences@example.com" })
     end
-    assert_includes ActionMailer::Base.deliveries.last.body.to_s, "123456"
+    assert_includes ActionMailer::Base.deliveries.last.text_part.body.to_s, "123456"
   end
 end

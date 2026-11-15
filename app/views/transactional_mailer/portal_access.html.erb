@@ -1,0 +1,4 @@
+<%= email_paragraph "Here is your #{@data[:product_name]} licence." %>
+<%= email_code "Licence key", @data[:license_keys] %>
+<%= email_paragraph "Manage your licence, download receipts or resend your key:" %>
+<%= email_button "Open your licence", @data[:magic_link_url] %>

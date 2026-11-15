@@ -1,0 +1,7 @@
+<%= email_paragraph "Thank you for buying #{@data[:product_name]}." %>
+<% if @data[:amount].present? %>
+  <%= email_paragraph "Amount paid: #{@data[:amount]}" %>
+<% end %>
+<%= email_code "Licence key", @data[:license_keys] %>
+<%= email_paragraph "Open #{@data[:product_name]} and enter this email address and the key to activate it." %>
+<%= email_button "Manage your licence", @data[:magic_link_url] %>

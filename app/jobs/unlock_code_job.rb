@@ -20,7 +20,7 @@ class UnlockCodeJob < ApplicationJob
     # the same inbox by our rules, but "bob+x@corp.com" only reaches bob at providers that
     # honour plus-addressing — send to the address that actually paid and it always lands.
     Loops.send_transactional(
-      api_key: product.loops_api_key_or_default,
+      api_key: product.loops_api_key_or_default, product:,
       transactional_id: product.unlock_transactional_id,
       email: purchase.email,
       data: {

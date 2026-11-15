@@ -13,7 +13,7 @@ class StudentDiscountJob < ApplicationJob
     # silently swallowed the second request and left them holding the first app's code.
     Notification.once(customer:, kind: "student_discount", reference_id: "#{product.slug}:#{Date.current}") do
       Loops.send_transactional(
-        api_key: product.loops_api_key_or_default,
+        api_key: product.loops_api_key_or_default, product:,
         transactional_id: product.student_transactional_id,
         email: email,
         data: {

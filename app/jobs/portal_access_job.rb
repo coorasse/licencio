@@ -13,7 +13,7 @@ class PortalAccessJob < ApplicationJob
     # after the first. This still de-dups a single job's retries (same token) after a lost response.
     Notification.once(customer:, kind: "portal", reference_id: portal_token.token) do
       Loops.send_transactional(
-        api_key: product.loops_api_key_or_default,
+        api_key: product.loops_api_key_or_default, product:,
         transactional_id: product.loops_transactional_id,
         email: customer.email,
         data: {

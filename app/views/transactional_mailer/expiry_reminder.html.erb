@@ -1,0 +1,4 @@
+<%= email_paragraph "Your #{@data[:product_name]} updates end on #{@data[:expires_at]}." %>
+<%= email_paragraph "The version you have keeps working. To keep getting updates, renew your licence." %>
+<%= email_button "Renew", @data[:renew_url] %>
+<%= email_code "Licence key", @data[:license_keys] %>

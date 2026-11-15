@@ -1,0 +1,3 @@
+<%= email_paragraph "Here is your student discount for #{@data[:product_name]}." %>
+<%= email_code "Discount code", @data[:discount_code] %>
+<%= email_button "Use it at checkout", @data[:pricing_url] %>

@@ -1,0 +1,5 @@
+<%= email_paragraph "You started buying #{@data[:product_name]} but didn't finish." %>
+<%= email_button "Pick up where you left off", @data[:recovery_url] %>
+<%= email_paragraph do %>
+  Or <%= email_link "see the pricing again", @data[:pricing_url] %>.
+<% end %>

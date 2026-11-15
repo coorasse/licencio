@@ -15,7 +15,7 @@ class LicenseEmailJob < ApplicationJob
     # Dedup so a re-enqueue or an already-delivered retry doesn't re-send this one-shot email.
     Notification.once(customer:, kind:, reference_id:) do
       Loops.send_transactional(
-        api_key: product.loops_api_key_or_default,
+        api_key: product.loops_api_key_or_default, product:,
         transactional_id:,
         email: customer.email,
         # Base variables every template can use; callers override via `data`

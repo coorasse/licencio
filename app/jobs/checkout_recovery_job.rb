@@ -14,7 +14,7 @@ class CheckoutRecoveryJob < ApplicationJob
     # every time somebody opens checkout and walks away.
     Notification.once(customer:, kind: "checkout_recovery", reference_id: product.slug) do
       Loops.send_transactional(
-        api_key: product.loops_api_key_or_default,
+        api_key: product.loops_api_key_or_default, product:,
         transactional_id: product.checkout_recovery_transactional_id,
         email:,
         data: {

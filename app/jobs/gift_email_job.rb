@@ -11,7 +11,7 @@ class GiftEmailJob < ApplicationJob
     gift.with_lock do
       next if gift.emailed_at
       Loops.send_transactional(
-        api_key: product.loops_api_key_or_default,
+        api_key: product.loops_api_key_or_default, product:,
         transactional_id: product.gift_transactional_id,
         email: gift.buyer_email,
         data: { product_name: product.name, card_url: gift.card_url, gift_code: gift.display_code,
