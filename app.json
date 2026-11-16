@@ -5,7 +5,7 @@
         "type": "startup",
         "name": "rails health",
         "path": "/up",
-        "initialDelay": 5,
+        "initialDelay": 30,
         "attempts": 12,
         "wait": 5,
         "timeout": 5
