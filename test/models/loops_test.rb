@@ -80,7 +80,7 @@ class LoopsTest < ActiveSupport::TestCase
   test "send_transactional mails the template over SMTP when there is no API key" do
     assert_emails 1 do
       Loops.send_transactional(api_key: nil, transactional_id: "unlock", email: "a@example.com",
-        data: { code: "123456", product_name: "gitto", sender_email: "licences@example.com" })
+        data: { code: "123456", product_name: "my-app", sender_email: "licences@example.com" })
     end
     assert_includes ActionMailer::Base.deliveries.last.text_part.body.to_s, "123456"
   end
