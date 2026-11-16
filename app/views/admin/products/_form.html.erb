@@ -170,6 +170,13 @@
       </div>
       <div>
         <label class="flex items-center gap-2 text-body">
+          <%= form.check_box :automatic_tax %>
+          Collect tax with Stripe Tax
+        </label>
+        <p class="field-hint">Without Managed Payments: Stripe Tax adds VAT or sales tax where the Stripe account has tax registrations. Use tax-inclusive prices to keep the total fixed.</p>
+      </div>
+      <div>
+        <label class="flex items-center gap-2 text-body">
           <%= form.check_box :ask_checkout_source %>
           Ask buyers how they found the app
         </label>

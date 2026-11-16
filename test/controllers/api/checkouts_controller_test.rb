@@ -39,7 +39,21 @@ class Api::CheckoutsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_not captured.key?(:managed_payments)
+    assert_not captured.key?(:automatic_tax)
     assert_empty captured[:custom_fields]
+  end
+
+  test "a product without Managed Payments can collect tax through Stripe Tax" do
+    @product.update!(managed_payments: false, automatic_tax: true)
+    captured = nil
+    Stripe::Price.stub(:retrieve, fake_price("price_3", @product.stripe_product_id, { "seats" => "3" })) do
+      Stripe::Checkout::Session.stub(:create, ->(params, _opts = {}) { captured = params; fake_session }) do
+        post "/api/checkout", params: { product_slug: @product.slug, price_id: "price_3" }
+      end
+    end
+
+    assert_response :ok
+    assert_equal({ enabled: true }, captured[:automatic_tax])
   end
 
   test "the site's signed country picks the band price" do

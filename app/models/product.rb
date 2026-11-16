@@ -384,6 +384,8 @@ class Product < ApplicationRecord
     promotion_code = active_promotion_code(promo) if takes_codes
     params = {
       mode: "payment", customer_creation: "always",
+      # Stripe Tax on the seller's own registrations; Managed Payments already handles tax itself.
+      automatic_tax: ({ enabled: true } if automatic_tax? && !managed_payments?),
       managed_payments: ({ enabled: true } if managed_payments?), # Stripe as merchant of record: calculates, collects &
       # remits global VAT/sales tax (no registrations on our end).
       # MoR owns tax config, so do NOT set automatic_tax here.

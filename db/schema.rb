@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_15_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_16_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -204,6 +204,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_120000) do
     t.datetime "updated_at", null: false
     t.boolean "ask_checkout_source", default: true, null: false
     t.boolean "managed_payments", default: true, null: false
+    t.boolean "automatic_tax", default: false, null: false
     t.index ["api_key"], name: "index_products_on_api_key", unique: true
     t.index ["bundle_identifier"], name: "index_products_on_bundle_identifier", unique: true
     t.index ["issuance_api_key"], name: "index_products_on_issuance_api_key", unique: true
